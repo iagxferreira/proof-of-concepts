@@ -1,0 +1,16 @@
+.content {
+    display: flex;
+    flex-direction: row;
+    height: 90vh;
+    margin: 0 10vw;
+    justify-content: center;
+    align-items: center;
+}
+
+.content h1 {
+    font-size: 64px;
+}
+
+.content p {
+    width: 40vw;
+}
