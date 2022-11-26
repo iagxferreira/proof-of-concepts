@@ -1,0 +1,36 @@
+{
+  "name": "web3-poc",
+  "version": "1.0.0",
+  "description": "proof of concept of hardhat framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "compile": "hardhat compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iagxferreira/web3-poc.git"
+  },
+  "keywords": [ "hardhat", "ethereum", "solidity", "web3" ],
+  "author": {
+    "name": "Iago Ferreira <iago-ferreira@outlook.com> https://github.com/iagxferreira"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iagxferreira/web3-poc/issues"
+  },
+  "homepage": "https://github.com/iagxferreira/web3-poc#readme",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.4",
+    "@nomiclabs/hardhat-waffle": "^2.0.2",
+    "@nomiclabs/hardhat-web3": "^2.0.0",
+    "chai": "^4.3.4",
+    "ethereum-waffle": "^3.4.0",
+    "ethers": "^5.5.3",
+    "hardhat": "^2.8.3",
+    "web3": "^1.7.0"
+  },
+  "dependencies": {
+    "dotenv": "^14.2.0"
+  }
+}
