@@ -1,0 +1,35 @@
+{
+  "name": "azure-serverless-example",
+  "version": "1.0.0",
+  "author": {
+    "name": "Iago Ferreira",
+    "url": "https://github.com/iagxferreira"
+  },
+  "description": "Azure function example using Serverless framework",
+  "scripts": {
+    "test": "jest",
+    "start": "func host start",
+    "start:offline": "serverless offline",
+    "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --fix && prettier --config .prettierrc \"src/**/*.js\" --write"
+  },
+  "keywords": [
+    "azure",
+    "serverless"
+  ],
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "mongoose": "^5.12.14"
+  },
+  "devDependencies": {
+    "eslint": "^7.29.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "husk": "^0.5.3",
+    "jest": "^27.0.5",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.3.1",
+    "serverless-azure-functions": "^2.0.0",
+    "serverless-dotenv-plugin": "^3.9.0"
+  }
+}

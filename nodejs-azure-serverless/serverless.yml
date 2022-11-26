@@ -1,0 +1,64 @@
+service: payroll-service
+
+frameworkVersion: '2'
+
+useDotenv: true
+
+provider:
+  name: azure
+  region: West US 2
+  runtime: nodejs12
+
+plugins:
+  - serverless-azure-functions
+  - serverless-dotenv-plugin
+
+package:
+  patterns:
+    - '!local.settings.json'
+    - '!.vscode/**'
+
+functions:
+  create:
+    handler: src/handlers/create-payroll.createPayroll
+    events:
+      - http: true
+        methods:
+          - POST
+        route: payroll
+        authLevel: anonymous
+
+  read:
+    handler: src/handlers/read-payroll.readPayroll
+    events:
+      - http: true
+        methods:
+          - GET
+        route: payroll/{id}
+        authLevel: anonymous
+  read-all:
+    handler: src/handlers/read-all-payrolls.readPayrolls
+    events:
+      - http: true
+        methods:
+          - GET
+        route: payroll
+        authLevel: anonymous
+
+  update:
+    handler: src/handlers/update-payroll.updatePayroll
+    events:
+      - http: true
+        methods:
+          - PUT
+        route: payroll/{id}
+        authLevel: anonymous
+
+  delete:
+    handler: src/handlers/delete-payroll.deletePayroll
+    events:
+      - http: true
+        methods:
+          - DELETE
+        route: payroll/{id}
+        authLevel: anonymous
