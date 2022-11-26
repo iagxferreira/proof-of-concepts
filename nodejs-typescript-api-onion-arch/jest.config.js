@@ -1,0 +1,8 @@
+module.exports = {
+    bail: 1,
+    coverageDirectory: 'coverage',
+    coverageProvider: 'v8',
+    preset: 'ts-jest',
+    testEnvironment: 'node',
+    testMatch: ['**/tests/**/*.(spec|test).[jt]s?(x)'],
+}

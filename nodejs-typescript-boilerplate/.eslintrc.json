@@ -1,0 +1,21 @@
+{
+    "env": {
+        "es6": true,
+        "node": true,
+        "jest": true
+    },
+    "extends": ["airbnb-base", "prettier"],
+    "ignorePatterns": ["dist", "node_modules"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": ["@typescript-eslint", "prettier"],
+    "rules": {
+        "prettier/prettier": "error",
+        "quotes": "error",
+        "import/extensions": 0,
+        "import/no-unresolved": 0
+    }
+}
