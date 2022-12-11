@@ -1,0 +1,11 @@
+[package]
+name = "rust-api-poc"
+version = "0.1.0"
+edition = "2021"
+authors = ["iago.ferreira@outlook.com"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.2.1"
+serde = { version = "1.0", features = ["derive"] }
