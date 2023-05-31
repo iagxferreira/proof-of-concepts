@@ -28,8 +28,12 @@ backend:
   # This is for local development only, it is not recommended to use this in production
   # The production database configuration is stored in app-config.production.yaml
   database:
-    client: better-sqlite3
-    connection: ':memory:'
+    client: pg
+    connection:
+      host: 127.0.0.1
+      port: 15432
+      user: postgres
+      password: password
   cache:
     store: memory
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
@@ -59,13 +63,32 @@ proxy:
 techdocs:
   builder: 'local' # Alternatives - 'external'
   generator:
-    runIn: 'docker' # Alternatives - 'local'
+    runIn: 'local' # Alternatives - 'local'
   publisher:
     type: 'local' # Alternatives - 'googleGcs' or 'awsS3'. Read documentation for using alternatives.
 
 auth:
-  # see https://backstage.io/docs/auth/ to learn about auth providers
-  providers: {}
+  environment: development # eg: production|staging|review|develop
+  providers:
+    ldap:
+      # eg: production|staging|review|develop
+      development:
+        ldapAuthenticationOptions:
+          userSearchBase: 'dc=organisation,dc=com' # REQUIRED
+          # what is the user unique key in your ldap instance
+          usernameAttribute: 'uid' # defaults to `uid`
+          # directory where to search user
+          # default search will be `[userSearchBase]=[username],[userSearchBase]`
+
+          # User able to list other users, this is used
+          # to check incoming JWT if user are already part of the LDAP
+          # NOTE: If no admin user/pass provided we'll attempt a credential-less search
+          adminDn: admin
+          adminPassword: password
+
+          ldapOpts:
+              - 'ldap://localhost:1389'
+
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -77,28 +100,62 @@ catalog:
   rules:
     - allow: [Component, System, API, Resource, Location]
   locations:
-    # Local example data, file locations are relative to the backend process, typically `packages/backend`
-    - type: file
-      target: ../../examples/entities.yaml
-
-    # Local example template
-    - type: file
-      target: ../../examples/template/template.yaml
+    - type: ldap-org
+      target: ldap://localhost:1389
       rules:
-        - allow: [Template]
-
-    # Local example organizational data
-    - type: file
-      target: ../../examples/org.yaml
-      rules:
-        - allow: [User, Group]
-
-    ## Uncomment these lines to add more example data
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/all.yaml
-
-    ## Uncomment these lines to add an example org
-    # - type: url
-    #   target: https://github.com/backstage/backstage/blob/master/packages/catalog-model/examples/acme-corp.yaml
-    #   rules:
-    #     - allow: [User, Group]
+        - allow: [ User, Group ]
+ldap:
+  providers:
+    - target: ldap://localhost:1389
+      bind:
+        dn: dc=organisation,dc=com
+        secret: password
+      users:
+        dn: dc=organisation,dc=com
+        options:
+           # One of 'base', 'one', or 'sub'.
+          scope: one
+          # The filter is the one that you commonly will want to specify explicitly. It
+          # is a string on the standard LDAP query format. Use it to select out the set
+          # of users that are of actual interest to ingest. For example, you may want
+          # to filter out disabled users.
+          filter: (uid=*)
+          # The attribute selectors for each item, as passed to the LDAP server.
+          attributes: [ '*', '+' ]
+          # This field is either 'false' to disable paging when reading from the
+          # server, or an object on the form '{ pageSize: 100, pagePause: true }' that
+          # specifies the details of how the paging shall work.
+          paged: false
+      groups:
+        dn: dc=organisation,dc=com
+        options:
+          filter: (&(objectClass=some-group-class)(!(groupType=email)))
+          map:
+            # The name of the attribute that holds the relative
+            # distinguished name of each entry. This value is copied into a
+            # well known annotation to be able to query by it later.
+            rdn: cn
+            # The name of the attribute that shall be used for the value of
+            # the metadata.name field of the entity.
+            name: cn
+            # The name of the attribute that shall be used for the value of
+            # the metadata.description field of the entity.
+            description: description
+            # The name of the attribute that shall be used for the value of
+            # the spec.type field of the entity.
+            type: groupType
+            # The name of the attribute that shall be used for the value of
+            # the spec.profile.displayName field of the entity.
+            displayName: cn
+            # The name of the attribute that shall be used for the value of
+            # the spec.profile.email field of the entity.
+            email: <nothing, left out>
+            # The name of the attribute that shall be used for the value of
+            # the spec.profile.picture field of the entity.
+            picture: <nothing, left out>
+            # The name of the attribute that shall be used for the values of
+            # the spec.parent field of the entity.
+            memberOf: memberOf
+            # The name of the attribute that shall be used for the values of
+            # the spec.children field of the entity.
+            members: member

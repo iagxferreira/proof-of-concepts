@@ -1,0 +1,28 @@
+version: '2'
+
+networks:
+  my-network:
+    driver: bridge
+services:
+  openldap-server:
+    image: osixia/openldap:1.5.0
+
+    ports:
+      - '1389:389'
+      - '1636:636'
+    environment:
+      - LDAP_ORGANISATION=organisation
+      - LDAP_DOMAIN=organisation.com
+      - "LDAP_BASE_DN=dc=organisation,dc=com"
+      - LDAP_ADMIN_PASSWORD=password
+    volumes:
+      - '/data/slapd/database:/var/lib/ldap'
+      - '/data/slapd/config:/etc/ldap/slapd.d'
+  database:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD= password
+    ports:
+      - '15432:5432'
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
