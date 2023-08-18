@@ -1,0 +1,3 @@
+{
+    "dotnet.defaultSolution": "backend/ProEventos.API/ProEventos.API.sln"
+}
