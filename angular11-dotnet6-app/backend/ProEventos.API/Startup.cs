@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using ProEventos.API.Data;
 
 namespace ProEventos.API
 {
@@ -15,6 +17,9 @@ namespace ProEventos.API
         public void ConfigureServices(IServiceCollection services)
         {
 
+            services.AddDbContext<DataContext>( context =>
+                context.UseSqlite(Configuration.GetConnectionString("Default"))
+            );
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
