@@ -41,11 +41,6 @@ public class TokenService
         ci.AddClaim(new Claim(ClaimTypes.Email, user.Email));
         ci.AddClaim(new Claim(ClaimTypes.GivenName, user.Name));
         ci.AddClaim(new Claim("image", user.Image));
-
-        foreach (var role in user.Roles)
-        {
-        }
-
         user.Roles.ToList().ForEach(role => ci.AddClaim(new Claim(ClaimTypes.Role, role)));
 
         return ci;
