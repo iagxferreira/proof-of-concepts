@@ -1,12 +1,12 @@
-﻿using RazorTest.Models;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
+namespace RazorTest.Models;
 
 public class Student
 {
     [Key]
-    [DisplayName("id")]
+    [DisplayName("Id")]
     public int Id { get; set; }
 
     [Required(ErrorMessage ="Name shouldn't be null")]

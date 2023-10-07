@@ -1,7 +1,8 @@
-﻿using RazorTest.Models;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+
+namespace RazorTest.Models;
 
 public class Premium
 {
@@ -27,5 +28,7 @@ public class Premium
     [DisplayName("Student")]
     [Required(ErrorMessage = "Invalid student")]
     public int StudentId { get; set; }
+
+    public Student? Student { get; set; }
 }
 
