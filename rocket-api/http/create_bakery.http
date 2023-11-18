@@ -2,6 +2,6 @@ POST http://127.0.0.1:8000/bakeries HTTP/1.1
 content-type: application/json
 
 {
-    "name": "sample",
-    "profit_margin": 5.0
+    "name": "Padaria dois irmão",
+    "profit_margin": 75.0
 }

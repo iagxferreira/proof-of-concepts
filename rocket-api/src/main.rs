@@ -42,7 +42,7 @@ async fn index() -> &'static str {
     "Hello, bakeries!"
 }
 
-#[get("/bakeries")]
+#[get("/")]
 async fn list_bakeries(db: &State<DatabaseConnection>)
     -> Result<Json<Vec<String>>, ErrorResponder>
 {
@@ -50,7 +50,7 @@ async fn list_bakeries(db: &State<DatabaseConnection>)
 
     let bakery_names = Bakery::find()
     .all(db)
-    .await// Use the await! macro here if necessary
+    .await
     .map_err(Into::<ErrorResponder>::into)?
     .into_iter()
     .map(|b| b.name)
@@ -67,7 +67,7 @@ struct NewBakeryDto<'r> {
     profit_margin: Option<f64>,
 }
 
-#[post("/bakeries", data = "<bakery>")]
+#[post("/", data = "<bakery>")]
 async fn new_bakery(
     db: &State<DatabaseConnection>,
     bakery: Json<NewBakeryDto<'_>>
@@ -89,7 +89,7 @@ async fn new_bakery(
 }
 
 
-#[get("/bakeries/<id>")]
+#[get("/<id>")]
 async fn bakery_by_id(db: &State<DatabaseConnection>, id: i32) -> Result<String, ErrorResponder> {
     let db = db as &DatabaseConnection;
 
@@ -113,6 +113,8 @@ async fn rocket() -> _ {
         .manage(db)
         .mount("/", routes![
             index, 
+        ])
+        .mount("/bakeries", routes![
             list_bakeries,
             bakery_by_id,
             new_bakery

@@ -13,7 +13,7 @@ pub(super) async fn set_up_db() -> Result<DatabaseConnection, DbErr> {
         DbBackend::MySql => {
             db.execute(Statement::from_string(
                 db.get_database_backend(),
-                format!("CREATE DATABASE IF NOT EXISTS `{}`;", DB_NAME),
+                format!("SELECT 1 = 1;",),
             ))
             .await?;
 
