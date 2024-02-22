@@ -1,4 +1,4 @@
-namespace Contracts
+namespace POC.RabbitMQ.Shared.Contracts
 {
     public record GettingStartedContract
     {

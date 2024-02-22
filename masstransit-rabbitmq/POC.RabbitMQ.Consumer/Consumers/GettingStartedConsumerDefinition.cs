@@ -1,6 +1,5 @@
-namespace Company.Consumers
+namespace POC.RabbitMQ.Consumer.Consumers
 {
-    using GettingStarted.Consumers;
     using MassTransit;
 
     public class GettingStartedConsumerDefinition :
