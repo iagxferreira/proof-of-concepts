@@ -1,0 +1,5 @@
+package correios
+
+func main() {
+
+}
